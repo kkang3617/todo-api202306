@@ -11,14 +11,13 @@ import java.time.LocalDateTime;
 @ToString @EqualsAndHashCode(of = "todoId")
 @NoArgsConstructor @AllArgsConstructor
 @Builder
-
 @Entity
 @Table(name = "tbl_todo")
 public class Todo {
 
     @Id
-    @GeneratedValue(generator = "system=uuid")
-    @GenericGenerator(name = "sytem-uuid", strategy = "uuid")
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String todoId;
 
     @Column(nullable = false, length = 30)
@@ -28,9 +27,6 @@ public class Todo {
 
     @CreationTimestamp
     private LocalDateTime createDate; //등록 시간
-
-
-
 
 }
 
