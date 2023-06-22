@@ -30,10 +30,10 @@ public class TodoService {
     //최신의 데이터 내용을 클라이언트에게 전달해서 랜더링 하기 위해
     //목록 리턴 메서드를 서비스에서 처리
     public TodoListResponseDTO retrieve() {
-        List<Todo> entityList = todoRepository.findAll();
+        List<Todo> entityList = todoRepository.findAll(); //Todo들이 모여있는 List
 
         List<TodoDetailResponseDTO> dtoList = entityList.stream()
-                /*.map(todo -> new TodoDetailResponseDTO(todo))*/
+                /*.map(todo -> new TodoDetailResponseDTO(todo))  */ //todo가 들어올때마다
                 .map(TodoDetailResponseDTO::new)
                 .collect(Collectors.toList());
 

@@ -16,6 +16,6 @@ public interface UserRepository
 
     //이메일 중복 체크
 //    @Query("SELECT COUNT(*) FROM User u WHERE u.email =?1")
-    boolean existsByEmail(String email);
+    boolean existsByEmail(String email); // 전달받은 email이 존재한다면 true 아니면 false
 
 }

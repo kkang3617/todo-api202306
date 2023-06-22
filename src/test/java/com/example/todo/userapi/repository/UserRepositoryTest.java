@@ -46,8 +46,8 @@ class UserRepositoryTest {
                 = userRepository.findByEmail(email);
         //then
         assertTrue(userOptional.isPresent()); // userOptional이 실존하는게 true
-        User user = userOptional.get();
-        assertEquals("춘식이", user.getUserName());
+        User user = userOptional.get(); // 객체 받음.
+        assertEquals("춘식이", user.getUserName()); //user에서 받아온 값이 춘식이 임을 단언.
 
         System.out.println("\n\n\n");
         System.out.println("user = " + user);
@@ -59,11 +59,11 @@ class UserRepositoryTest {
     @DisplayName("이메일 중복체크를 하면 중복값이 false여야 한다")
     void emailFalse() {
         //given
-        String email = "db1234@abc.com";
+        String email = "db1234@abc.com"; // 없는 값.
         //when
         boolean flag= userRepository.existsByEmail(email);
         //then
-        assertFalse(flag);
+        assertFalse(flag); // 존재하지 않음을 단언한다.
     }
 
 }
