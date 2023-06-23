@@ -5,6 +5,7 @@ import com.example.todo.exception.DuplicatedEmailException;
 import com.example.todo.exception.NoRegisteredArgumentsException;
 import com.example.todo.userapi.dto.UserSignUpResponseDTO;
 import com.example.todo.userapi.dto.request.LoginRequestDTO;
+import com.example.todo.userapi.dto.response.LoginResponseDTO;
 import com.example.todo.userapi.entity.User;
 import com.example.todo.userapi.repository.UserRepository;
 import com.example.todo.userapi.dto.request.UserRequestSignUpDTO;
@@ -56,7 +57,7 @@ public class UserService {
 
 
     //회원 인증
-    public void authenticate(final LoginRequestDTO dto) {
+    public LoginResponseDTO authenticate(final LoginRequestDTO dto) {
 
         // 이메일을 통해 회원 정보를 조회.
         User user = userRepository.findByEmail(dto.getEmail())
@@ -68,7 +69,7 @@ public class UserService {
         String rawPassword = dto.getPassword(); // 사용자가 입력한 비번
         String encodedPassword = user.getPassword(); // DB에 저장된 비번
 
-        if(encoder.matches(rawPassword, encodedPassword)) {
+        if(!encoder.matches(rawPassword, encodedPassword)) {
             throw new RuntimeException("비밀번호가 틀렸습니다.");
         }
 
@@ -76,7 +77,10 @@ public class UserService {
 
         //로그인 성공 후에 클라이언트에게 무엇을 리턴할 것인가???
         // -> JWT를 클라이언트에게 발급해 주어야 함.
-        
+        String token = tokenProvider.createToken(user);//tokenprovier에게 user에관한 토큰 요청
+
+        return new LoginResponseDTO(user, token); //user, token 을 loginresponseDTO에 전달.
+
     }
 
 }

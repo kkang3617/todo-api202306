@@ -23,4 +23,4 @@ springdoc:
     path: /myapi.html
 
 jwt:
-  secret = PiVD/O4Zn94PmX47y0sCKKd+I1ttMrKOOfbIT9nud/0T9RowC2TUkzqC4xV68rwfY9/IYn7484Do3NPxMeHwHA==
+  secret: PiVD/O4Zn94PmX47y0sCKKd+I1ttMrKOOfbIT9nud/0T9RowC2TUkzqC4xV68rwfY9/IYn7484Do3NPxMeHwHA==
