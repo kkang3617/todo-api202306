@@ -24,14 +24,13 @@ public class UserRequestSignUpDTO {
     @NotBlank
     @Size(min = 2, max = 5)
     private String userName;
-    
-    // entity로 바꾸는 메서드
+
     public User toEntity() {
         return User.builder()
                 .email(this.email)
-                .password(this.userName)
+                .password(this.password)
+                .userName(this.userName)
                 .build();
     }
-
 
 }

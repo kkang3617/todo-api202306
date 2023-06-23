@@ -1,6 +1,7 @@
 package com.example.todo.userapi.entity;
 
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -19,7 +20,7 @@ public class User {
     @Column(name = "user_id")
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
-    private String id; //계정명이 아니라 식별 코드
+    private String id; // 계정명이 아니라 식별 코드
 
     @Column(unique = true, nullable = false)
     private String email;
@@ -30,6 +31,7 @@ public class User {
     @Column(nullable = false)
     private String userName;
 
+    @CreationTimestamp
     private LocalDateTime joinDate;
 
 }

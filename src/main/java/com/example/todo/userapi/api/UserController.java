@@ -43,7 +43,7 @@ public class UserController {
     ) {
         log.info("/api/auth POST - {}", dto);
 
-        if(result.hasErrors()) { //에러가 있다면~
+        if(result.hasErrors()) {  //에러가 있다면
             log.warn(result.toString());
             return ResponseEntity.badRequest()
                     .body(result.getFieldError());
@@ -51,18 +51,17 @@ public class UserController {
 
         try {
             UserSignUpResponseDTO responseDTO = userService.create(dto);
-            return  ResponseEntity.ok().body(responseDTO);
+            return ResponseEntity.ok()
+                    .body(responseDTO);
         } catch (NoRegisteredArgumentsException e) {
-            log.warn("필수 가입정보를 전달받지 못했습니다.");
+            log.warn("필수 가입 정보를 전달받지 못했습니다.");
             return ResponseEntity.badRequest()
-                    .body((e.getMessage()));
+                    .body(e.getMessage());
         } catch (DuplicatedEmailException e) {
             log.warn("이메일이 중복되었습니다.");
             return ResponseEntity.badRequest()
-                    .body((e.getMessage()));
+                    .body(e.getMessage());
         }
-
-
     }
 
 
