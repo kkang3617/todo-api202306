@@ -19,6 +19,7 @@ public class LoginResponseDTO {
     private LocalDate joinDate;
 
     private String token; // 인증토큰
+    private String role; // 권한
 //    private String message; // 로그인 메세지
     
     
@@ -27,5 +28,6 @@ public class LoginResponseDTO {
         this.userName = user.getUserName();
         this.joinDate = LocalDate.from(user.getJoinDate());
         this.token = token;
+        this.role = String.valueOf(user.getRole()); //role 문자열 변경
     }
 }

@@ -83,7 +83,7 @@ public class TokenProvider {
     public TokenUserInfo validateAndGetTokenUserInfo(String token) {
 
         Claims claims = Jwts.parserBuilder()
-                //토큰 발급자의 발급 당시의 서명을 넣어줒ㅁ
+                //토큰 발급자의 발급 당시의 서명을 넣어줌
                 .setSigningKey(Keys.hmacShaKeyFor(SECRET_KEY.getBytes()))
                 // 서명 위조 검사: 위조된 경우에는 예외가 발생한다.
                 // 위조가 되지 않은 경우 페이로드를 리턴.
