@@ -16,6 +16,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @Slf4j
@@ -43,9 +44,11 @@ public class UserController {
     //POST: /api/auth
     @PostMapping
     public ResponseEntity<?> signup(
-            @Validated @RequestBody UserRequestSignUpDTO dto,
+            @Validated @RequestPart("user") UserRequestSignUpDTO dto,
+            @RequestPart(value = "profileImage", required = false) MultipartFile profileImg,
             BindingResult result
     ) {
+
         log.info("/api/auth POST - {}", dto);
 
         if(result.hasErrors()) {  //에러가 있다면
@@ -55,7 +58,15 @@ public class UserController {
         }
 
         try {
-            UserSignUpResponseDTO responseDTO = userService.create(dto);
+
+        String uploadedFilePath = null;
+        if(profileImg != null) {
+            log.info("attached file name: {}", profileImg.getOriginalFilename());
+            uploadedFilePath = userService.uploadProfileImage(profileImg);
+        }
+
+
+            UserSignUpResponseDTO responseDTO = userService.create(dto, uploadedFilePath);
             return ResponseEntity.ok()
                     .body(responseDTO);
         } catch (NoRegisteredArgumentsException e) {
@@ -66,6 +77,10 @@ public class UserController {
             log.warn("이메일이 중복되었습니다.");
             return ResponseEntity.badRequest()
                     .body(e.getMessage());
+        } catch (Exception e) {
+            log.warn("기타 예외가 발생했습니다.");
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
         }
     }
 
@@ -91,7 +106,7 @@ public class UserController {
     //일반 회원을 프리미엄 회원으로 승격하는 요청 처리
     @PutMapping("/promote")
     //권한 검사 (해당 권한이 아니라면 인가처리 거부 403 코드 리턴)
-    @PreAuthorize("hasRole('ROLE_COMMON')")
+    @PreAuthorize("hasRole('ROLE_COMMON')")  // ROLE_COMMON이 아니라면 실행 x
     public ResponseEntity<?> promote(
             @AuthenticationPrincipal TokenUserInfo userInfo
             ) {
