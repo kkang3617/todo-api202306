@@ -144,6 +144,12 @@ public class UserService {
 
     }
 
+    public String findProFilePath(String userId) {
+        User user= userRepository.findById(userId)
+                .orElseThrow();
+        return uploadRootPath + "/" + user.getProfileImg(); // 경로 + 파일명
+
+    }
 }
 
 
